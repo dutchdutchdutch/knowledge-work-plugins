@@ -31,7 +31,7 @@ Aggregate signals across quality checks, open risks, schedule status, and team r
 | Skill | Purpose | Status |
 |-------|---------|--------|
 | `sprint-retro-input` | Generate factual observations for retrospectives | ✅ Ready |
-| `release-readiness` | Synthesize signals for release decisions | 🚧 Planned |
+| `release-readiness` | Go/no-go assessment for any milestone, launch, or deadline | ✅ Ready |
 
 ### Input Skills
 
@@ -41,8 +41,10 @@ Aggregate signals across quality checks, open risks, schedule status, and team r
 | `quality-check` | Check results for any deliverable (code, docs, design, compliance) | ✅ Ready |
 | `activity-audit` | Reported status vs actual activity in any source | ✅ Ready |
 | `risk-tracker` | Risks, issues, and blockers across the project | ✅ Ready |
-| `standup-notes` | Meeting patterns, blocker trends | 🚧 Planned |
-| `schedule-forecast` | Sprint burndown, velocity trends | 🚧 Planned |
+| `standup-notes` | Artifact-driven status updates, multiple per day | ✅ Ready |
+| `schedule-forecast` | Milestone burndown, throughput trends, completion confidence | ✅ Ready |
+| `dependency-readiness` | External/internal dependency status for milestones | ✅ Ready |
+| `stakeholder-signoff` | Approval tracking with enablement verification | ✅ Ready |
 
 *Input skills work standalone or feed into aggregators.*
 
@@ -97,6 +99,8 @@ See [CONNECTORS.md](./CONNECTORS.md) for tool setup.
 │ • risk-tracker     │          │
 │ • standup-notes    │          │
 │ • schedule-forecast│          │
+│ • dependency-readiness        │
+│ • stakeholder-signoff         │
 └────────────────────┼──────────┘
                      │
                ┌─────┴──────────────┐
