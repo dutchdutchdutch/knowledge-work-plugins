@@ -1,260 +1,209 @@
-# Project Intelligence Skills
+# Project Intelligence
 
-**Transform team workflow data into actionable insights**
+**Surface patterns in any team's work — code, documents, designs, or compliance artifacts.**
 
-A composable skill ecosystem that analyzes code, tickets, communication, and test data to surface patterns for retrospectives, release decisions, and process improvement.
+A composable skill set that analyzes project data across disciplines and surfaces factual, data-driven observations for retrospectives, quality gates, release decisions, and process improvement.
+
+> **A note on terminology:** These skills use the word **"story"** to mean any trackable unit of work — whether your team calls them stories, tasks, tickets, cards, work items, or issues. If it moves through columns on a board or has a lifecycle status, it's a story here.
 
 ---
 
 ## What This Does
 
-**For Sprint Retrospectives:**
-Get data-driven observations about cycle time, WIP, blockers, and team patterns - formatted as importable cards for Miro/Mural/Jira boards.
+**For Retrospectives:**
+Generate comparative observations about cycle time, throughput, blockers, and team patterns — formatted for import into Miro, Mural, or Jira boards.
+
+**For Quality Gates:**
+Summarize check results for any deliverable — CI builds, document reviews, design critiques, compliance audits — and recommend a clear action: proceed, block, retry, or escalate.
+
+**For Flow Diagnosis:**
+Identify why stories, tickets, or tasks are stalled. Distinguish blockers from unclear specs, split needs, and external dependencies.
 
 **For Release Decisions:**
-Aggregate signals from test coverage, open incidents, code stability, and schedule status to inform go/no-go decisions.
+Aggregate signals across quality checks, open risks, schedule status, and team readiness to inform go/no-go decisions.
 
-**For Continuous Improvement:**
-Track trends over time, correlate metrics across tools, identify process bottlenecks before they become problems.
+---
+
+## Available Skills
+
+### Aggregators
+
+| Skill | Purpose | Status |
+|-------|---------|--------|
+| `sprint-retro-input` | Generate factual observations for retrospectives | ✅ Ready |
+| `release-readiness` | Synthesize signals for release decisions | 🚧 Planned |
+
+### Input Skills
+
+| Skill | What It Analyzes | Status |
+|-------|-----------------|--------|
+| `story-flow` | Why stories/tickets exceed cycle time targets | ✅ Ready |
+| `quality-check` | Check results for any deliverable (code, docs, design, compliance) | ✅ Ready |
+| `activity-audit` | Reported status vs actual activity in any source | ✅ Ready |
+| `risk-tracker` | Risks, issues, and blockers across the project | ✅ Ready |
+| `standup-notes` | Meeting patterns, blocker trends | 🚧 Planned |
+| `schedule-forecast` | Sprint burndown, velocity trends | 🚧 Planned |
+
+*Input skills work standalone or feed into aggregators.*
+
+### Agents (Delegated Specialists)
+
+| Agent | Used By | Purpose |
+|-------|---------|---------|
+| `git-activity` | `activity-audit` | Detect commit patterns: churn, stalled, workarounds |
+| `document-activity` | `activity-audit` | Detect document revision patterns (template — customize for your platform) |
+
+---
+
+## Quick Start
+
+### Manual Input (No Setup Required)
+
+```
+Analyze sprint 14 for our retrospective.
+
+Sprint 14 stories:
+- DEV-88: "API rate limiting" — 28hr cycle time
+- DES-34: "Redesign onboarding flow" — 52hr cycle time
+- LEGAL-12: "Update privacy policy for EU launch" — 44hr cycle time
+- MKT-67: "Write Q2 campaign brief" — 18hr cycle time
+
+8 stories completed, avg cycle time 31hr
+7 blockers (3 on LEGAL-12 — external counsel delays)
+Previous 3 sprints averaged 36hr cycle time and 10 stories completed.
+Team norms: cycle time <48hr, WIP limit 5
+```
+
+### Automated (With Connectors)
+
+```
+Analyze sprint 14. Fetch from ~~project tracker and ~~code repository.
+```
+
+See [CONNECTORS.md](./CONNECTORS.md) for tool setup.
 
 ---
 
 ## Architecture
 
 ```
-┌─────────────────────────┐
-│   INPUT SKILLS          │  ← Fetch/parse individual data sources
-│  (Modular Collectors)   │
-├─────────────────────────┤
-│ • git-audit             │
-│ • test-report           │
-│ • story-flow            │
-│ • standup-notes         │
-│ • risk-issue-tracker    │
-│ • schedule-forecast     │
-└───────────┬─────────────┘
-            │
-            ↓
-┌─────────────────────────┐
-│   AGGREGATORS           │  ← Synthesize insights for specific use cases
-│  (Analysis & Synthesis) │
-├─────────────────────────┤
-│ • sprint-retro-participant
-│ • release-readiness     │
-└───────────┬─────────────┘
-            │
-            ↓
-┌─────────────────────────┐
-│   OUTPUTS               │  ← Formatted for your tools
-├─────────────────────────┤
-│ • JSON (board import)   │
-│ • CSV (spreadsheets)    │
-│ • Markdown (docs)       │
-└─────────────────────────┘
-```
-
-**How it works:**
-1. **Input skills** are modular - each handles one data source
-2. **Aggregator skills** combine inputs for specific decisions
-3. **Outputs** adapt to your workflow tools
-
----
-
-## Available Skills
-
-### Aggregators (Use These)
-
-| Skill | Purpose | Status |
-|-------|---------|--------|
-| `sprint-retro-participant` | Generate factual observations for retrospectives | ✅ Ready |
-| `release-readiness` | Synthesize signals for release decisions | 🚧 Planned |
-
-### Input Skills (Building Blocks)
-
-| Skill | Data Source | Status |
-|-------|-------------|--------|
-| `git-audit` | Code commits, PRs, review patterns | 🚧 Planned |
-| `test-report` | Test coverage, failures, flakiness | 🚧 Planned |
-| `story-flow` | Ticket progression, cycle time, WIP | 🚧 Planned |
-| `standup-notes` | Daily standup patterns, blockers | 🚧 Planned |
-| `risk-issue-tracker` | Incidents, bugs, production issues | 🚧 Planned |
-| `schedule-forecast` | Sprint burndown, velocity trends | 🚧 Planned |
-
-*Input skills can be used standalone or composed by aggregators*
-
----
-
-## Quick Start
-
-### Scenario 1: Your First Retro Analysis
-
-**Without MCP servers (manual input):**
-```
-Use sprint-retro-participant skill.
-
-Sprint 42 data:
-- 8 stories completed (previous 3 sprints avg: 10)
-- Cycle time: 5 days (previous avg: 3.8 days)
-- WIP peaked at 7 (team norm: 5)
-- 4 blockers logged
-
-Team norms:
-- WIP limit: 5 stories
-- Cycle time: <4 days
-```
-
-**With MCP servers (automated):**
-```
-Use sprint-retro-participant skill to analyze sprint 42.
-Fetch from Jira and GitHub.
-```
-
-See [CONNECTORS.md](./CONNECTORS.md) for MCP setup.
-
----
-
-### Scenario 2: Release Go/No-Go (Future)
-
-```
-Use release-readiness skill for v2.3 release.
-Check: test coverage, open P0/P1 issues, code churn, schedule status.
+┌───────────────────────────────┐
+│   INPUT SKILLS                │  ← Analyze individual data sources
+│  (Modular Collectors)         │
+├───────────────────────────────┤
+│ • story-flow                  │
+│ • quality-check               │
+│ • activity-audit ──┐          │
+│ • risk-tracker     │          │
+│ • standup-notes    │          │
+│ • schedule-forecast│          │
+└────────────────────┼──────────┘
+                     │
+               ┌─────┴──────────────┐
+               │  AGENTS             │  ← Domain-specific signal detection
+               │  (Delegated)        │
+               ├─────────────────────┤
+               │ • git-activity      │
+               │ • document-activity │
+               └─────────────────────┘
+                     │
+                     ↓
+┌───────────────────────────────┐
+│   AGGREGATORS                 │  ← Synthesize for specific decisions
+│  (Analysis & Synthesis)       │
+├───────────────────────────────┤
+│ • sprint-retro-input          │
+│ • release-readiness           │
+└──────────────┬────────────────┘
+               │
+               ↓
+┌───────────────────────────────┐
+│   OUTPUT                      │  ← Formatted for your workflow
+├───────────────────────────────┤
+│ Markdown (default) · JSON     │
+│ CSV · Plain text              │
+└───────────────────────────────┘
 ```
 
 ---
 
-## Data Sources & Connectors
+## Plugin Configuration
 
-These skills work **with or without** automated data fetching:
-
-- ✅ **With MCP servers:** Auto-fetch from Jira, GitHub, Slack, etc.
-- ✅ **Without MCP:** Paste sprint reports, CSV exports, screenshots
-
-**See [CONNECTORS.md](./CONNECTORS.md) for:**
-- MCP server setup guides
-- Supported tools (Jira, GitHub, Linear, Slack, etc.)
-- Manual input formats
-- API alternatives
+| File | Purpose |
+|------|---------|
+| [CONNECTORS.md](./CONNECTORS.md) | Where your **tools** live — Jira, GitHub, Slack, etc. |
+| [REFERENCES.md](./REFERENCES.md) | Where your **standards** live — brand guidelines, contract templates, SOC 2 matrix |
+| [output-styles/](./output-styles/) | How skills **format output** — `[DATA]` prefix, comparison format, severity tags |
 
 ---
 
 ## Use Cases
 
-### Development Teams
+### Engineering Teams
 - Sprint retrospectives with cycle time analysis
-- Release readiness checks (test coverage, open bugs)
+- CI/CD quality gate summaries
 - PR review bottleneck detection
-- Code quality trend tracking
+- Release readiness checks
 
-### Non-Dev Teams (OCM, Marketing, Operations)
-- Campaign iteration analysis (ADKAR, marketing sprints)
-- Training material production cycles
-- Cross-functional dependency tracking
-- Approval workflow pattern analysis
+### Design Teams
+- Design review feedback triage (blockers vs. style preferences)
+- Accessibility audit summaries
+- Brand compliance checks against the design system
+
+### Legal & Compliance
+- Vendor audit check summaries
+- Contract review comment triage
+- Regulatory finding classification and escalation
+
+### Marketing & Product
+- Campaign iteration analysis
+- Content review feedback summaries
+- Product spec clarity diagnosis
 
 ### Leadership
-- Multi-team health dashboards (future)
-- Process improvement trend analysis
-- Resource allocation insights
+- Cross-functional sprint health
+- Quality gate trend analysis
+- Process improvement tracking
 
 ---
 
 ## Design Principles
 
-**1. Modularity**
-Input skills are independent building blocks. Use them standalone or combine via aggregators.
-
-**2. Graceful Degradation**
-Works with whatever data you have - full automation, partial automation, or manual input.
-
-**3. Factual Voice**
-No opinions or fluff. Observations start with `[DATA]` and include percentage comparisons.
-
-**4. Tool Agnostic**
-Adapts to Jira, Linear, GitHub, GitLab, Asana - whatever your team uses.
-
-**5. Actionable Format**
-Outputs are ready to import into retro boards, spreadsheets, or documentation.
-
----
-
-## Roadmap
-
-**Phase 1 (Current):**
-- ✅ `sprint-retro-participant` aggregator
-- 🚧 First input skills (story-flow, standup-notes)
-
-**Phase 2:**
-- 🚧 `release-readiness` aggregator
-- 🚧 Remaining input skills (git-audit, test-report, etc.)
-
-**Phase 3 (Future):**
-- 📋 Dashboard skill (visualize trends over time)
-- 📋 Custom aggregators (team-specific workflows)
-- 📋 Multi-sprint comparison tools
-
----
-
-## Contributing
-
-**Building an input skill?**
-Follow this pattern:
-1. Single responsibility (one data source)
-2. Accept manual input OR auto-fetch
-3. Output structured data (other skills can consume it)
-4. Document expected data format
-
-**Building an aggregator?**
-1. Specify which input skills it uses
-2. Define the decision/question it answers
-3. Maintain factual, comparative voice
-4. Provide multiple output formats
-
----
-
-## Getting Help
-
-**First time using these skills?**
-Start with `sprint-retro-participant` and manual input. Once comfortable, add MCP servers for automation.
-
-**Questions about MCP setup?**
-See [CONNECTORS.md](./CONNECTORS.md) or search for "Anthropic MCP servers"
-
-**Feature requests or bugs?**
-Open an issue in this repository
+1. **Multidisciplinary** — Same patterns work for code, documents, designs, and compliance artifacts
+2. **Modularity** — Input skills are independent building blocks; use standalone or combine via aggregators
+3. **Graceful Degradation** — Works with full automation, partial automation, or manual input
+4. **Factual Voice** — No opinions. Observations start with `[DATA]` and include baseline comparisons
+5. **Tool Agnostic** — Uses `~~` connector placeholders. Adapts to whatever tools your team runs
+6. **Canonical Sources** — Checks against configured reference documents, not arbitrary search results
 
 ---
 
 ## Example Output
 
-**Sprint Retro Participant:**
-```json
-{
-  "sprint": "Sprint 42",
-  "observations": [
-    {
-      "title": "Cycle Time Degradation",
-      "type": "improvement",
-      "content": "[DATA] Cycle time increased 37% to 5.2 days (vs 3.8 day baseline). Violates <4 day norm.",
-      "change": "+37%"
-    }
-  ]
-}
+```markdown
+# Sprint Retrospective Input | Sprint 14
+
+**Sources:** manual input
+**Baseline:** Sprints 11-13
+
+---
+
+### Cycle Time Improvement — success
+[DATA] Avg cycle time decreased 14% to 31hr (vs 36hr baseline). Within <48hr norm.
+
+### Throughput Drop — risk
+[DATA] 8 stories completed (-20% vs 10-story baseline).
+
+### Blocker Spike — improvement
+[DATA] 7 blockers (+133% vs 3 baseline). 3 of 7 concentrated on LEGAL-12 (external counsel delays).
 ```
 
-Import this JSON directly to Miro, Mural, or Jira boards for your retrospective.
-
 ---
 
-**Version:** 1.0
-**Last Updated:** February 2026
-**License:** MIT (or your chosen license)
+## Getting Help
 
----
+**First time?** Start with `sprint-retro-input` and manual input. Once comfortable, add connectors for automation and configure reference sources for your team's standards.
 
-## What Makes This Different
+**Tool setup?** See [CONNECTORS.md](./CONNECTORS.md)
 
-Traditional retro prep: 30+ minutes of manually gathering metrics, screenshots, and anecdotes.
-
-With Project Intelligence skills: <5 minutes to generate comparative, multi-source observations ready for discussion.
-
-**Focus shifts from "what happened" to "why it happened and what to do about it."**
+**Reference standards?** See [REFERENCES.md](./REFERENCES.md)
