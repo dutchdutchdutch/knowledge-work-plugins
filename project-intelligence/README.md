@@ -2,9 +2,37 @@
 
 **Surface patterns in any team's work — code, documents, designs, or compliance artifacts.**
 
-A composable skill set that analyzes project data across disciplines and surfaces factual, data-driven observations for retrospectives, quality gates, release decisions, and process improvement.
+A composable skill set that analyzes project data across disciplines and surfaces factual, data-driven observations for retrospectives, quality gates, release decisions, and process improvement. Designed to supplement — not duplicate — role-specific plugins.
 
 > **A note on terminology:** These skills use the word **"story"** to mean any trackable unit of work — whether your team calls them stories, tasks, tickets, cards, work items, or issues. If it moves through columns on a board or has a lifecycle status, it's a story here.
+
+---
+
+## Where This Fits
+
+The Anthropic plugin suite is **role-based** — each plugin coaches a specific role (product manager, legal counsel, finance) on how to do their job. Project-intelligence is **process-based** — it observes what's happening across all roles and answers: *"What's the actual state of this project right now?"*
+
+| | Role Plugins | Project Intelligence |
+|---|---|---|
+| **Question** | "How should I do my job?" | "What's actually happening?" |
+| **Approach** | Frameworks, templates, best practices | Pattern detection, anomaly surfacing |
+| **Scope** | Single role | Cross-functional |
+| **Output** | Coaching and structure | Observations and signals |
+
+### Value by Skill
+
+| Skill | Unique Contribution | Relationship to Role Plugins |
+|-------|--------------------|-----------------------------|
+| `release-readiness` | Cross-skill synthesis into a single go/no-go | No role plugin aggregates across disciplines |
+| `sprint-retro-input` | Comparative retro analysis with evidence | No role plugin does data-driven retrospectives |
+| `activity-audit` | "Is the status real?" verification | No role plugin audits reported vs. actual status |
+| `dependency-readiness` | Staleness-first dependency checks | No role plugin checks if dependencies are *current* |
+| `stakeholder-signoff` | Enablement verification + rubber stamp detection | `stakeholder-comms` teaches *how to communicate*; this checks *if communication was effective* |
+| `story-flow` | "Why is this stuck?" diagnosis | `roadmap-management` covers flow implicitly; this diagnoses root causes |
+| `change-summary` | Review delta (feedback loop closure) | Role plugins generate release notes; this tracks *what changed since your last review* |
+| `risk-tracker` | Cascade + accumulation pattern detection | `legal-risk-assessment` uses severity/likelihood scoring; this detects emerging patterns |
+| `quality-check` | Domain-agnostic gate checking | Role plugins have domain-specific quality; this provides a universal gate framework |
+| `schedule-forecast` | Quantitative completion forecasting | `roadmap-management` is strategic; this is mathematical |
 
 ---
 
@@ -41,11 +69,10 @@ Aggregate signals across quality checks, open risks, schedule status, and team r
 | `quality-check` | Check results for any deliverable (code, docs, design, compliance) | ✅ Ready |
 | `activity-audit` | Reported status vs actual activity in any source | ✅ Ready |
 | `risk-tracker` | Risks, issues, and blockers across the project | ✅ Ready |
-| `standup-notes` | Artifact-driven status updates, multiple per day | ✅ Ready |
 | `schedule-forecast` | Milestone burndown, throughput trends, completion confidence | ✅ Ready |
 | `dependency-readiness` | External/internal dependency status for milestones | ✅ Ready |
 | `stakeholder-signoff` | Approval tracking with enablement verification | ✅ Ready |
-| `change-summary` | Tiered changelog: major milestone, minor milestone, review delta | ✅ Ready |
+| `change-summary` | Iteration summaries and review deltas (feedback loop closure) | ✅ Ready |
 
 *Input skills work standalone or feed into aggregators.*
 
@@ -98,22 +125,21 @@ See [CONNECTORS.md](./CONNECTORS.md) for tool setup.
 │ • quality-check               │
 │ • activity-audit ──┐          │
 │ • risk-tracker     │          │
-│ • standup-notes    │          │
 │ • schedule-forecast│          │
 │ • dependency-readiness        │
 │ • stakeholder-signoff         │
 │ • change-summary              │
 └────────────────────┼──────────┘
-                     │
-               ┌─────┴──────────────┐
-               │  AGENTS             │  ← Domain-specific signal detection
-               │  (Delegated)        │
-               ├─────────────────────┤
-               │ • git-activity      │
-               │ • document-activity │
-               └─────────────────────┘
-                     │
-                     ↓
+           │         │
+           │   ┌─────┴──────────────┐
+           │   │  AGENTS             │  ← Domain-specific signal detection
+           │   │  (Delegated)        │
+           │   ├─────────────────────┤
+           │   │ • git-activity      │
+           │   │ • document-activity │
+           │   └─────────────────────┘
+           │
+           ↓
 ┌───────────────────────────────┐
 │   AGGREGATORS                 │  ← Synthesize for specific decisions
 │  (Analysis & Synthesis)       │
@@ -129,6 +155,29 @@ See [CONNECTORS.md](./CONNECTORS.md) for tool setup.
 │ Markdown (default) · JSON     │
 │ CSV · Plain text              │
 └───────────────────────────────┘
+
+
+· · · · · · · · · · · · · · · · · · · · · · · · ·
+  ROLE PLUGINS (Referenced, not duplicated)
+· · · · · · · · · · · · · · · · · · · · · · · · ·
+  This bundle defers to existing role plugins
+  for domain expertise it doesn't replicate:
+
+  • legal/legal-risk-assessment
+      ↳ risk-tracker cross-references for
+        formal risk scoring frameworks
+  • product-management/stakeholder-comms
+      ↳ stakeholder-signoff complements
+        (enablement vs. communication)
+  • product-management/roadmap-management
+      ↳ schedule-forecast complements
+        (quantitative vs. strategic)
+  • productivity/task-management
+      ↳ status update formatting deferred
+        to role plugins (standup-notes removed)
+
+  See "Where This Fits" above for full mapping.
+· · · · · · · · · · · · · · · · · · · · · · · · ·
 ```
 
 ---

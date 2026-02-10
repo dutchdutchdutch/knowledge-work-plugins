@@ -216,7 +216,7 @@ Our stale threshold for legal reviews is 7 business days.
 ### Plans
 - Clarify if waiting on vendor counter-redlines
 - If awaiting external: update status to "Blocked — External" and set follow-up date
-- If deprioritized: flag in standup for re-prioritization
+- If deprioritized: flag for re-prioritization
 ```
 
 ### Example 3: Automated Multi-Story Audit

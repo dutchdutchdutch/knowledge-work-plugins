@@ -41,7 +41,6 @@ Pull the latest output from each available input skill:
 | Quality | `quality-check` | Are deliverables meeting acceptance criteria? |
 | Activity | `activity-audit` | Does actual work match reported status? |
 | Risks | `risk-tracker` | Are there unresolved risks or active blockers? |
-| Team Status | `standup-notes` | What's the team's current state and health? |
 | Schedule | `schedule-forecast` | Will we hit the target date? |
 | Flow | `story-flow` | Are stories flowing or stuck? |
 | Dependencies | `dependency-readiness` | Are external/internal dependencies ready? |
@@ -61,7 +60,6 @@ Convert each skill output to a traffic light:
 | **Quality** | All checks pass | Minor findings, no blockers | Blocking findings or >5% failure rate |
 | **Activity** | Work matches status | Some stale items | Significant gaps between status and reality |
 | **Risks** | No active risks or issues | Low/medium risks, issues <24h | High risks, issues >24h, cascades |
-| **Team** | All progressing, no blockers | 1 blocker <24h | Blockers >24h, stalled teams |
 | **Schedule** | On track or ahead | At risk (likely date 3-7 days late) | Behind (likely date >7 days late) |
 | **Flow** | Stories completing within targets | Some stories exceeding cycle time | Multiple stalled or churning stories |
 | **Dependencies** | All dependencies verified ready | Some at risk or in progress | Critical-path dependency not ready or unknown |
@@ -102,7 +100,6 @@ Use the project-intelligence output style (see [output style](../../output-style
 | Quality | 🟢/🟡/🔴 | [1-line summary] |
 | Activity | 🟢/🟡/🔴 | [1-line summary] |
 | Risks | 🟢/🟡/🔴 | [1-line summary] |
-| Team | 🟢/🟡/🔴 | [1-line summary] |
 | Schedule | 🟢/🟡/🔴 | [1-line summary] |
 | Flow | 🟢/🟡/🔴 | [1-line summary] |
 | Dependencies | 🟢/🟡/🔴 | [1-line summary] |
@@ -148,7 +145,6 @@ Collect blockers from all skills into a single list:
 | `quality-check` | Blocking findings (critical bugs, failed compliance checks, rejected deliverables) |
 | `activity-audit` | Significant activity gaps — status says "done" but artifacts say otherwise |
 | `risk-tracker` | Issues open >24h, high severity risks, cascade dependencies |
-| `standup-notes` | Active blockers >24h |
 | `schedule-forecast` | Forecast >7 days behind target |
 | `story-flow` | Critical-path stories stalled or in churn |
 | `dependency-readiness` | Critical-path dependencies not ready or unknown |
@@ -165,7 +161,6 @@ Collect yellow signals that aren't blocking but need awareness:
 | `quality-check` | Minor findings, flaky checks, deferred items |
 | `activity-audit` | Stale items not on the critical path |
 | `risk-tracker` | Medium risks, accumulating debt |
-| `standup-notes` | Blockers <24h old |
 | `schedule-forecast` | At risk (3-7 days late) or low confidence |
 | `story-flow` | Non-critical stories exceeding cycle time |
 | `dependency-readiness` | Non-critical dependencies at risk or in progress |
@@ -348,7 +343,6 @@ Mostly ready — creative and team are in good shape. Two yellow signals both tr
 
 ## Warnings
 - ⚠️ 4 evidence documents not updated in >10 days — may need refreshing (activity-audit)
-- ⚠️ Infrastructure team blocker on encryption config — 48h and counting (standup-notes)
 - ⚠️ Schedule forecast at risk — April 4 likely completion vs March 31 target
 
 ---

@@ -1,33 +1,34 @@
 ---
 name: change-summary
 description: >
-  Auto-generate what changed — at three levels of granularity.
-  Major milestone summaries for external stakeholders, minor milestone
-  summaries for internal teams, and review deltas showing what changed
-  since a specific stakeholder last reviewed. Works for any deliverable:
-  software, creative assets, documents, hardware firmware, training
-  materials, or legal agreements.
+  Summarize what changed at two levels: iteration summaries for internal
+  teams, and review deltas showing what changed since a specific
+  stakeholder last reviewed. Works for any deliverable: software,
+  creative assets, documents, hardware firmware, training materials,
+  or legal agreements. For external-facing release notes or themed
+  milestone summaries, use the relevant role plugin (product-management,
+  marketing, etc.).
 ---
 
 # Change Summary
 
-You are a **Change Summarizer** — you compile what actually changed and present it at the right level of detail for the audience. The same body of work looks different to stakeholders reading a milestone summary, a team reviewing their iteration, and a reviewer checking whether their feedback was addressed.
+You are a **Change Summarizer** — you compile what actually changed and present it at the right level of detail for the audience. The same body of work looks different to a team reviewing their iteration and a reviewer checking whether their feedback was addressed.
 
-This skill operates in three tiers:
+This skill operates in two tiers:
 
 | Tier | Scope | Audience | Granularity |
 |------|-------|----------|-------------|
-| **Major** | Since last major milestone | External stakeholders, leadership, customers | Grouped by theme |
-| **Minor** | Since last minor milestone | Internal team, iteration reviews | Listed by item |
+| **Iteration** | Since last minor milestone | Internal team, iteration reviews | Listed by item |
 | **Delta** | Since a specific point (last review, last approval, feedback) | Specific reviewer or approver | Focused on what's different |
+
+> [!NOTE]
+> For external-facing release notes or themed milestone summaries, use the relevant role plugin (e.g., `product-management/stakeholder-comms`, `marketing/content-creation`). This skill focuses on internal team alignment and reviewer feedback loops.
 
 **Core question:** *What changed, for whom, and since when?*
 
 **Example triggers:**
-- "What's new in v3.0?" → Major tier
-- "What changed this iteration?" → Minor tier
+- "What changed this iteration?" → Iteration tier
 - "What changed since the stakeholder review on Feb 5?" → Delta tier
-- "Generate release notes for the Q2 launch"
 - "Summarize revisions to the training materials since the last review"
 - "What's different in the firmware since the last certification submission?"
 - "What changed on the MSA since opposing counsel's last redline?"
@@ -43,8 +44,7 @@ Identify the tier from the request:
 
 | Signal | Tier |
 |--------|------|
-| "Release notes", "what's new", major version, external summary | **Major** |
-| "This sprint", "this iteration", "this cycle", "since last review" | **Minor** |
+| "This sprint", "this iteration", "this cycle", "since last deploy" | **Iteration** |
 | "Since [person] reviewed", "since last feedback", "since [date]" | **Delta** |
 
 If ambiguous, ask: *"Who is this summary for, and since when should I look?"*
@@ -93,57 +93,7 @@ Let the domain drive the language. If the team calls them "tracks" not "features
 
 ---
 
-## Tier 1: Major Milestone Summary
-
-**Purpose:** Communicate what changed to people who don't follow day-to-day work — stakeholders, customers, leadership, external partners.
-
-**Characteristics:**
-- Grouped by theme, not chronology
-- Audience-appropriate language, not internal jargon
-- Impact-oriented: what does this mean for the recipient, not what happened internally
-- Highlights and headlines, not exhaustive lists
-
-**Output template:**
-
-```markdown
-# What's New | [Milestone Name]
-
-**Period:** [start date] → [end date]
-**Items completed:** [N]
-
----
-
-## Highlights
-- [1-2 sentence headline for the most important change]
-- [Another headline]
-
----
-
-## [Category 1]
-- **[Item name]** — [1-2 sentence description of what changed and why it matters]
-
-## [Category 2]
-- **[Item name]** — [What's different now]
-
----
-
-## Known Limitations
-- [Anything explicitly not included, deferred, or partially complete]
-
----
-
-## Coming Next
-- [Brief preview of what's planned for the next major milestone]
-```
-
-**Audience rules:**
-- No internal tracking IDs unless the audience expects them
-- Translate internal work into external impact
-- Focus on "what's different for you" not "what we did"
-
----
-
-## Tier 2: Minor Milestone Summary
+## Tier 1: Iteration Summary
 
 **Purpose:** Keep the internal team aligned on what shipped this iteration.
 
@@ -201,7 +151,7 @@ Let the domain drive the language. If the team calls them "tracks" not "features
 
 ---
 
-## Tier 3: Review Delta
+## Tier 2: Review Delta
 
 **Purpose:** Show a specific stakeholder what changed since they last reviewed, especially if they gave feedback or a conditional approval.
 
@@ -253,9 +203,6 @@ Let the domain drive the language. If the team calls them "tracks" not "features
 **No changes found:**
 - Report it: "No completed items found between [start] and [end]. This may indicate a data source gap — verify access to revision history and tracker."
 
-**Mixed audiences:**
-- If the user doesn't specify, default to minor tier for internal requests and major tier for external-facing requests.
-
 **Scope change heavy iteration:**
 - If >30% of items were scope changes (added, deferred, rescoped), highlight this pattern: "Significant scope churn this cycle — 5 of 12 items were scope changes."
 
@@ -272,51 +219,7 @@ Let the domain drive the language. If the team calls them "tracks" not "features
 
 ## Examples
 
-### Example 1: Major — IoT Firmware Release Notes
-
-**User:** "Generate release notes for thermostat firmware v2.4"
-
-```markdown
-# What's New | Thermostat Firmware v2.4
-
-**Period:** Jan 8 → March 10
-**Items completed:** 18
-
----
-
-## Highlights
-- Geofencing now supports irregular home boundaries, not just circular radius
-- Energy reports include cost estimates based on local utility rates
-- Resolved intermittent sensor reading drops reported in v2.3
-
----
-
-## New Capabilities
-- **Irregular geofence boundaries** — Draw custom home boundaries on the app map instead of a fixed radius. Works with GPS and Wi-Fi positioning.
-- **Utility cost estimates** — Daily and monthly energy reports now show estimated cost using configurable local utility rates
-
-## Spec Changes
-- **Sensor polling interval** — Reduced from 30s to 15s for faster response to temperature changes. Battery impact: ~3% increase in daily consumption.
-- **BLE pairing timeout** — Extended from 30s to 60s based on field reports of pairing failures with older phones
-
-## Defect Fixes
-- **Sensor reading drops** — Fixed intermittent null readings when humidity sensor and temp sensor poll simultaneously
-- **Schedule timezone** — Fixed daylight saving time transition causing 1-hour schedule offset
-
----
-
-## Known Limitations
-- Irregular geofence requires firmware v2.4 AND app v4.1+ (app update releasing March 15)
-- Cost estimates use manual rate entry — utility API integration planned for v2.5
-
----
-
-## Coming Next
-- Utility API integration for automatic rate updates
-- Multi-zone scheduling improvements
-```
-
-### Example 2: Minor — Creative Development Cycle
+### Example 1: Iteration — Creative Development Cycle
 
 **User:** "Summarize what changed in round 3 of the rebrand"
 
@@ -364,7 +267,7 @@ Let the domain drive the language. If the team calls them "tracks" not "features
 - Round 4 (final) should focus on motion, remaining templates, and print specs
 ```
 
-### Example 3: Delta — Legal Document Review
+### Example 2: Delta — Legal Document Review
 
 **User:** "What changed on the MSA since opposing counsel's redline on Feb 10?"
 
@@ -397,51 +300,12 @@ Let the domain drive the language. If the team calls them "tracks" not "features
 3 of 4 redline items addressed. Liability cap (§9.1) is still under review — this is the remaining substantive issue. Two other changes (payment terms, insurance) are unrelated to your redline but affect commercial terms. Recommend re-review of §6.4, §9.1, and §14.2 before signing.
 ```
 
-### Example 4: Major — Training Materials New Version
-
-**User:** "What's new in the Q2 onboarding curriculum?"
-
-```markdown
-# What's New | Q2 Onboarding Curriculum
-
-**Period:** Jan → March (full revision cycle)
-**Items completed:** 14 modules updated
-
----
-
-## Highlights
-- New AI tools module added — covers prompt engineering and responsible use
-- Compliance section restructured around real scenarios instead of policy citations
-- All video content re-recorded with updated product UI (v3.0)
-
----
-
-## New Material
-- **Module 12: AI Tools & Responsible Use** — 45-minute module covering approved AI tools, prompt engineering basics, data handling rules, and escalation paths
-- **Scenario Library** — 8 interactive scenarios replacing static compliance slides, covering data handling, vendor management, and conflict of interest
-
-## Updated Content
-- **Modules 3-6: Product Training** — Re-recorded all 4 video walkthroughs to reflect v3.0 UI changes. Updated screenshots and exercises.
-- **Module 9: Security Awareness** — Added section on social engineering via AI-generated content. Updated phishing examples.
-- **Module 11: Performance Review Process** — Updated to reflect new quarterly check-in format (replacing annual reviews)
-
-## Removed
-- **Module 7b: Legacy System Overview** — Removed. Legacy system decommissioned Q1.
-
----
-
-## Known Limitations
-- AI Tools module (Module 12) references internal AI policy v2.1. If policy v2.2 ships before Q2 onboarding starts, module will need a quick update.
-- Scenario Library currently web-only — mobile version planned for Q3.
-```
-
 ---
 
 ## Key Principles
 
-1. **Audience determines granularity** — Stakeholders get themes, teams get items, reviewers get deltas. Same changes, different lens.
-2. **Use the domain's language** — "Redlines" not "fixes" for legal. "Rounds" not "sprints" for creative. "Revision cycles" not "deploys" for training.
-3. **Honesty about scope** — Include what was deferred, removed, or didn't get done. Silence on scope changes erodes trust.
-4. **Feedback closes the loop** — The delta tier exists to show stakeholders their input was heard and acted on.
-5. **Track revision depth** — For iterative work (creative, legal, content), note which cycle/round this is. "Round 3 of 4" gives context that a flat summary doesn't.
-6. **Connect to other skills** — Pull from `stakeholder-signoff` for feedback to address, `story-flow` for cycle time context, `risk-tracker` for resolved issues.
+1. **Use the domain's language** — "Redlines" not "fixes" for legal. "Rounds" not "sprints" for creative. "Revision cycles" not "deploys" for training.
+2. **Honesty about scope** — Include what was deferred, removed, or didn't get done. Silence on scope changes erodes trust.
+3. **Feedback closes the loop** — The delta tier exists to show stakeholders their input was heard and acted on.
+4. **Track revision depth** — For iterative work (creative, legal, content), note which cycle/round this is. "Round 3 of 4" gives context that a flat summary doesn't.
+5. **Connect to other skills** — Pull from `stakeholder-signoff` for feedback to address, `story-flow` for cycle time context, `risk-tracker` for resolved issues.

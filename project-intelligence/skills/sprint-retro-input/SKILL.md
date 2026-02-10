@@ -36,7 +36,7 @@ First, check what data sources are available:
 If tools unavailable, ask user for: sprint reports, CSV exports, screenshots, or pasted data.
 
 **Always tell the user which sources you're using:**
-> "Fetching from ~~code repository and ~~project tracker. I don't have ~~chat access — share standup notes if you'd like them included."
+> "Fetching from ~~code repository and ~~project tracker. I don't have ~~chat access — share status notes if you'd like them included."
 
 **Step 2: Collect These Metrics**
 

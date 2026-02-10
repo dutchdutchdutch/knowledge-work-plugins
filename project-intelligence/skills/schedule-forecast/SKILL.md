@@ -33,10 +33,10 @@ Collect completion data from available sources:
 | Data Needed | Source |
 |------------|--------|
 | Total items in scope | ~~project tracker, user input |
-| Completed items + completion dates | ~~project tracker, standup notes |
+| Completed items + completion dates | ~~project tracker, status reports |
 | Currently blocked items | `risk-tracker`, ~~project tracker |
 | Target/deadline date | User input, ~~project tracker |
-| Historical throughput (prior milestones) | Past standup notes, user input |
+| Historical throughput (prior milestones) | Past status reports, user input |
 
 Check [REFERENCES.md](../../REFERENCES.md) for any configured project data sources.
 

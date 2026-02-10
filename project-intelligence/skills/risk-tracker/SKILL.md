@@ -96,6 +96,9 @@ Use the project-intelligence output style (see [output style](../../output-style
 | 🟡 Yellow | Issues <24h old OR low/medium risks |
 | 🔴 Red | Issues >24h OR high risks OR cascade dependencies |
 
+> [!NOTE]
+> This skill detects **patterns** — recurrence, cascades, accumulation, throughput drops. For formal **risk scoring** with severity × likelihood matrices, escalation ladders, and remediation tracking, see `legal/legal-risk-assessment`.
+
 ---
 
 ## Issue Types
