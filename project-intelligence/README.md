@@ -17,7 +17,7 @@ The Anthropic plugin suite is **role-based**; each plugin coaches a specific rol
 | **Question** | "Do this job. Help me do task X" | "What's actually happening?" |
 | **Approach** | Frameworks, templates, best practices | Pattern detection, anomaly surfacing |
 | **Scope** | Single role | Cross-functional |
-| **Output** | Coaching and structure | Observations and signals |
+| **Output** | Job artifacts, coaching & structure | Observations and signals |
 
 ### Value by Skill
 
